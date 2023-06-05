@@ -8,6 +8,6 @@ import { PermissionsService } from './permissions.service'
 @Module({
   imports: [TypeOrmModule.forFeature([Permission])],
   controllers: [PermissionsController],
-  providers: [PermissionsService]
+  providers: [PermissionsService],
 })
 export class PermissionsModule {}

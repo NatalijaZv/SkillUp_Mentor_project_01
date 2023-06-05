@@ -17,6 +17,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { HasPermission } from 'decorators/has-permission.decorator'
 import { User } from 'entities/user.entity'
 import { isFileExtensionSafe, removeFile, saveImageToStorage } from 'helpers/imageStorage'
 import { PaginatedResult } from 'interfaces/paginated-result.interface'
@@ -26,14 +27,13 @@ import { DeleteDateColumn } from 'typeorm'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UsersService } from './users.service'
-import { HasPermission } from 'decorators/has-permission.decorator'
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor) // we need to use this interceptor, if we want to use @Exclude in User entitiy (with this interceptor, everything from class-transformer is added  inside requests we will be maing here)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Get()
-  @HasPermission('users')
+  // @HasPermission('users')
   @HttpCode(HttpStatus.OK)
   async findAll(@Query('page') page: number): Promise<PaginatedResult> {
     return this.usersService.paginate(page, ['role'])

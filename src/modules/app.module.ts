@@ -11,6 +11,8 @@ import { PermissionsGuard } from './permissions/guards/permission.guard'
 import { PermissionsModule } from './permissions/permissions.module'
 import { RolesModule } from './roles/roles.module'
 import { UsersModule } from './users/users.module'
+import { ProductsModule } from './products/products.module'
+import { OrdersModule } from './orders/orders.module'
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { UsersModule } from './users/users.module'
     AuthModule,
     RolesModule,
     PermissionsModule,
+    ProductsModule,
+    OrdersModule,
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: PermissionsGuard }],

@@ -1,16 +1,18 @@
-import { string } from '@hapi/joi'
-import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common'
 import { Role } from 'entities/role.entity'
 import { PaginatedResult } from 'interfaces/paginated-result.interface'
-import { CreateUserDto } from 'modules/users/dto/create-user.dto'
 
 import { CreateUpdateRoleDto } from './dto/create-update-role.dto'
 import { RolesService } from './roles.service'
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
 
+@ApiTags('roles')
 @Controller('roles')
 export class RolesController {
   constructor(private rolesService: RolesService) {}
 
+  @ApiCreatedResponse({ description: 'Finds all roles roles and permissions.' })
+  @ApiBadRequestResponse({ description: 'Error for list of roles.' })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(): Promise<Role[]> {
@@ -28,6 +30,8 @@ export class RolesController {
     return this.rolesService.findById(id, ['permissions'])
   }
 
+  @ApiCreatedResponse({ description: 'Creates new role' })
+  @ApiBadRequestResponse({ description: 'Error for creating new role.' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(
@@ -39,6 +43,9 @@ export class RolesController {
       permissionsIds.map((id) => ({ id })),
     )
   }
+
+  @ApiCreatedResponse({ description: 'Update role with specific id.' })
+  @ApiBadRequestResponse({ description: 'Error for updating role' })
   @Patch()
   @HttpCode(HttpStatus.OK)
   async update(
@@ -52,6 +59,9 @@ export class RolesController {
       permissionsIds.map((id) => ({ id })),
     )
   }
+
+  @ApiCreatedResponse({ description: 'Delete role.' })
+  @ApiBadRequestResponse({ description: 'Error for deleting users.' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id') id: string): Promise<Role> {

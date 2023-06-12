@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 
 import { Base } from './base.entity'
 import { Permission } from './permission.entity'
@@ -16,7 +16,7 @@ export class Role extends Base {
     joinColumn: { name: 'role_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'permission_id', referencedColumnName: 'id' },
   })
-  // JoinTable will create new table with name role_permission, which will have 
+  // JoinTable will create new table with name role_permission, which will have
   //three columns -id, role_id and permission_id
   permissions: Permission[]
   role: Permission

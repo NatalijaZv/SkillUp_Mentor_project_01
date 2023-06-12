@@ -1,7 +1,6 @@
 import { Expose } from 'class-transformer'
 import { IsUUID } from 'class-validator'
-import { StringifyOptions } from 'querystring'
-import { CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 export class Base {
   @PrimaryGeneratedColumn('uuid')

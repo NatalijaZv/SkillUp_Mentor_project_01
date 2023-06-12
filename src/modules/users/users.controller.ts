@@ -1,9 +1,7 @@
-import { number } from '@hapi/joi'
 import {
   BadRequestException,
   Body,
   ClassSerializerInterceptor,
-  ConsoleLogger,
   Controller,
   Delete,
   Get,
@@ -17,21 +15,24 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { HasPermission } from 'decorators/has-permission.decorator'
 import { User } from 'entities/user.entity'
 import { isFileExtensionSafe, removeFile, saveImageToStorage } from 'helpers/imageStorage'
 import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import { join } from 'path'
-import { DeleteDateColumn } from 'typeorm'
 
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UsersService } from './users.service'
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
 
+@ApiTags('users')
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor) // we need to use this interceptor, if we want to use @Exclude in User entitiy (with this interceptor, everything from class-transformer is added  inside requests we will be maing here)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @ApiCreatedResponse({ description: 'List all users' })
+  @ApiBadRequestResponse({ description: 'Error for list of users.' })
   @Get()
   // @HasPermission('users')
   @HttpCode(HttpStatus.OK)
@@ -44,7 +45,8 @@ export class UsersController {
   async findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findById(id, ['role'])
   }
-
+  @ApiCreatedResponse({ description: 'Creates new user' })
+  @ApiBadRequestResponse({ description: 'Error for creating a new user.' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {

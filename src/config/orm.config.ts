@@ -21,4 +21,3 @@ export const ORMConfig = async (configService: ConfigService): Promise<Connectio
     },
   },
 })
-

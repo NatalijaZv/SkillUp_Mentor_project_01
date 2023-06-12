@@ -1,11 +1,9 @@
-import { string } from '@hapi/joi'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from 'entities/user.entity'
-import {Request} from 'express'
+import { Request } from 'express'
 import Logging from 'library/Logging'
 import { UsersService } from 'modules/users/users.service'
-import { userInfo } from 'os'
 import { compareHash } from 'utils/bcrypt'
 import { hash } from 'utils/bcrypt'
 
